@@ -256,17 +256,19 @@ class Bdp(unittest.TestCase):
             c = ricerca(tmp)
             bdp = c / "bdp"
             bdp.mkdir()
-            for n in ["SENTENZA_TRIBUNALE_DI_MILANO_-_N._R.G._00004147_2025_DEPOSITO_MINUTA_03_03_2025__PUBBLICAZIONE_04_03_2025.pdf",
+            for n in ["SENTENZA_TRIBUNALE_DI_VARESE_N._567_2026_-_N._R.G._00001481_2025_DEPOSITO_MINUTA_10_10_2026__PUBBLICAZIONE_14_10_2026.pdf",
+                      "SENTENZA_TRIBUNALE_DI_MILANO_-_N._R.G._00004147_2025_DEPOSITO_MINUTA_03_03_2025__PUBBLICAZIONE_04_03_2025.pdf",
                       "SENTENZA_TRIBUNALE_DI_MILANO_-_N._R.G._00004147_2025_DEPOSITO_MINUTA_03_03_2025__PUBBLICAZIONE_04_03_2025 (1).pdf",
                       "altro.pdf"]:
                 (bdp / n).write_bytes(b"%PDF-1.4\n")
             r = esegui("importa-bdp", c, bdp)
-            self.assertIn("Importati dalla BDP: 2; nomi non riconosciuti: 1", r.stdout)
+            self.assertIn("Importati dalla BDP: 3; nomi non riconosciuti: 1", r.stdout)
             cand = (c / "candidati.csv").read_text(encoding="utf-8")
+            self.assertIn("bdp-1481-2025,bdp,Tribunale di Varese,sentenza,2026-10-14,\"n. 567/2026, R.G. 1481/2025\"", cand)
             self.assertIn("bdp-4147-2025,bdp,Tribunale di Milano,sentenza,2025-03-04", cand)
             self.assertIn("bdp-4147-2025-2,", cand)
             self.assertTrue((c / "fonti" / "bdp-4147-2025.pdf").is_file())
-            self.assertEqual(len(list(bdp.iterdir())), 3)
+            self.assertEqual(len(list(bdp.iterdir())), 4)
 
 
 class Struttura(unittest.TestCase):

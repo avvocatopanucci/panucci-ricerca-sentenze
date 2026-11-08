@@ -4,7 +4,7 @@ Skill per Claude che cerca precedenti utili a un caso concreto, dalle fonti aper
 
 Ideata dall'Avv. Giovanna Panucci (novembre 2026). Licenza MIT: uso e modifica liberi, citando l'autrice.
 
-> **Stato: versione di prova.** Il percorso con Garante privacy ed EDPB è stato provato su ricerche complete. Il collegamento con la Banca Dati di Merito è pronto ma non ancora provato su una ricerca completa.
+> **Stato: versione di prova.** Provata su ricerche complete con Garante privacy, EDPB e Banca Dati di Merito (novembre 2026). Le altre fonti si aggiungono con il loro profilo.
 
 ## Che cosa fa
 

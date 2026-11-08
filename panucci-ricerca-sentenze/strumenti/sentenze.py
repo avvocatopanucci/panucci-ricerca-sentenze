@@ -607,7 +607,7 @@ def cmd_matrice(cartella, opzioni):
 
 
 # =============================================================== BDP
-RE_BDP = re.compile(r"^(?P<tipo>[A-Z]+)_(?P<uff>.+?)_-_N\._R\.G\._(?P<n>\d+)_(?P<a>\d{4})"
+RE_BDP = re.compile(r"^(?P<tipo>[A-Z]+)_(?P<uff>.+?)(?:_N\._(?P<pn>\d+)_(?P<pa>\d{4}))?_-_N\._R\.G\._(?P<n>\d+)_(?P<a>\d{4})"
                     r"(?:_DEPOSITO_MINUTA_(?P<dep>\d\d_\d\d_\d{4}))?(?:_+PUBBLICAZIONE_(?P<pub>\d\d_\d\d_\d{4}))?"
                     r"(?:\s*\(\d+\))?\.pdf$", re.I)
 
@@ -637,7 +637,8 @@ def cmd_importa_bdp(cartella, opzioni):
         uff = " ".join(m.group("uff").replace("_", " ").split()).title().replace(" Di ", " di ")
         righe.append({"id": ident, "fonte": "bdp", "autorita": uff, "tipo": m.group("tipo").lower(),
                       "data": g(m.group("pub")) or g(m.group("dep")),
-                      "numero": "R.G. %d/%s" % (int(m.group("n")), m.group("a")), "titolo": nome,
+                      "numero": ("n. %d/%s, " % (int(m.group("pn")), m.group("pa")) if m.group("pn") else "")
+                                + "R.G. %d/%s" % (int(m.group("n")), m.group("a")), "titolo": nome,
                       "url_pagina": "", "url_documento": "", "formato": "pdf", "scelta": "leggi",
                       "nota": "Banca Dati di Merito, accesso dell'utente"})
         shutil.copy2(os.path.join(src, nome), os.path.join(cartella, "fonti", ident + ".pdf"))
